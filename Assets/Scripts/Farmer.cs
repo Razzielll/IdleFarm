@@ -31,7 +31,7 @@ public class Farmer : MonoBehaviour
     [SerializeField] float sellDelay;
     [SerializeField] Transform bag;
     private bool isCoinActive;
-    [SerializeField] int moneyReservCount;
+   // [SerializeField] int moneyReservCount;
 
     // Start is called before the first frame update
     void Start()
@@ -118,7 +118,7 @@ public class Farmer : MonoBehaviour
         
         cropsCount--;
         correctCropsCount--;
-        moneyReservCount++;
+     //   moneyReservCount++;
         GameObject cropGO = Instantiate(cropPrefab);
         cropGO.transform.position = bag.position;
         StartCoroutine(SellCrops());
@@ -128,14 +128,11 @@ public class Farmer : MonoBehaviour
     }
     public void SellCrop()
     {
-        if (isCoinActive)
-        {
-            return;
-        }
+        
         Coin coin = Instantiate(coinPrefab, canvas.transform);
         coin.transform.position = Camera.main.WorldToScreenPoint(Barn.position);
         coin.SetFarmer(this, moneyUI);
-        isCoinActive = true;
+     //   isCoinActive = true;
     }
 
     IEnumerator SellCrops()
@@ -153,13 +150,12 @@ public class Farmer : MonoBehaviour
 
     IEnumerator MoneyIncreaseCoroutine()
     {
-        for (int i = 0; i < moneyReservCount; i++)
-        {
-            yield return new WaitForEndOfFrame();
-            moneyCount += cropValue;
-        }
-        moneyReservCount = 0;
-        isCoinActive = false;
+        
+        yield return new WaitForEndOfFrame();
+        moneyCount += cropValue;
+        
+      //  moneyReservCount = 0;
+       // isCoinActive = false;
     }
 
     public int GetTargetCropCount()
@@ -213,6 +209,10 @@ public class Farmer : MonoBehaviour
         currentHarvestTarget = harvest;
     }
 
+    public bool IsCoinActive()
+    {
+        return isCoinActive;
+    }
     private Harvest FindNewTargetInRange(float searchRadius)
     {        
         Harvest best = null;
